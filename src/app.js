@@ -5,9 +5,16 @@ const app = express();
 app.use(express.json());
 
 
-// app.get("/", (req, res) => {
-//   res.send("URL Shortener API Running");
-// });
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    message: "URL Shortener API is running",
+    endpoints: {
+      shorten: "POST /shorten",
+      redirect: "GET /:shortId"
+    }
+  });
+});
 
 const morgan = require("morgan");
 app.use(morgan("dev"));
