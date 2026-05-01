@@ -32,44 +32,6 @@ Client → Express API → Controller → Service Layer
 
 ---
 
-## 🏗️ System Design (Detailed View)
-                        ┌──────────────┐
-                        │    Client    │
-                        │ (Browser/API)│
-                        └──────┬───────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   Express Server    │
-                    │  (Route Handler)    │
-                    └─────────┬───────────┘
-                              │
-              ┌───────────────┴────────────────┐
-              ▼                                ▼
-┌──────────────────────┐           ┌──────────────────────┐
-│  Rate Limiter Layer  │           │  URL Controller      │
-│ (Abuse Protection)   │           │ (Business Logic)     │
-└─────────┬────────────┘           └─────────┬────────────┘
-          │                                  │
-          ▼                                  ▼
-   ┌───────────────────┐         ┌────────────────────────┐
-   │ Redis Cache Layer │◄────────┤  Cache Lookup First    │
-   │ (Fast Path 🚀)    │         └─────────┬──────────────┘
-   └─────────┬─────────┘                   │
-             │ (MISS)                      │ (HIT)
-             ▼                             ▼
-   ┌────────────────────┐        ┌──────────────────────┐
-   │ MongoDB Database   │        │ Return Short URL     │
-   │ (Source of Truth)  │        │ Immediately          │
-   └─────────┬──────────┘        └──────────────────────┘
-             │
-             ▼
-   ┌────────────────────┐
-   │ Cache Update Layer │
-   │ (Store in Redis)   │
-   └────────────────────┘
----
-
 ## 🧠 Tech Stack
 
 - Node.js
